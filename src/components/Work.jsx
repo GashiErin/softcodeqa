@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { morphing, floating, pulse, explosion, flip3D, spiral, wave } from '../utils/motion.js';
 
 const projects = [
   { id: 1, title: 'Astra Banking', category: 'Fintech', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
@@ -145,29 +144,9 @@ function TiltCard({ children, idx, onClick }) {
       onMouseLeave={onLeave}
       className="group text-left relative overflow-hidden rounded-2xl bg-neutral-900 border border-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-600"
     >
-      {/* CRAZY GLOW EFFECTS */}
-      <div className="pointer-events-none absolute -inset-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" aria-hidden>
-        <div className="absolute inset-0 blur-3xl bg-[conic-gradient(from_0deg_at_50%_50%,rgba(167,139,250,0.12),rgba(34,211,238,0.12),transparent_60%)]" />
-        <motion.div 
-          className="absolute inset-0 blur-2xl bg-gradient-to-r from-pink-500/20 to-yellow-500/20"
-          {...morphing(0, 2)}
-        />
-      </div>
-      
-      {/* FLOATING PARTICLES ON HOVER */}
-      <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-white/60 rounded-full"
-            style={{
-              left: `${20 + i * 15}%`,
-              top: `${30 + (i % 2) * 40}%`,
-            }}
-            {...floating(i * 0.1, 20, 2)}
-            {...pulse(i * 0.2, 1.5, 1)}
-          />
-        ))}
+      {/* OPTIMIZED GLOW EFFECTS */}
+      <div className="pointer-events-none absolute -inset-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden>
+        <div className="absolute inset-0 blur-2xl bg-gradient-to-r from-violet-500/10 to-cyan-500/10" />
       </div>
       <motion.div
         style={{

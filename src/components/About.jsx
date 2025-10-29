@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { staggerContainer, slideRight, slideUp, slideLeft, morphing, floating, pulse, explosion, flip3D } from '../utils/motion.js';
+import { staggerContainer, slideRight, slideUp, slideLeft, explosion } from '../utils/motion.js';
 import Section from './Section.jsx';
 
 const reveal = {
@@ -38,10 +38,9 @@ export default function About() {
           ))}
         </motion.div>
         
-        {/* FLOATING BACKGROUND ELEMENTS */}
-        <motion.div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-violet-500/10 blur-3xl" {...morphing(0, 5)} />
-        <motion.div className="absolute -bottom-20 -left-20 w-60 h-60 rounded-full bg-cyan-500/10 blur-3xl" {...floating(1, 40, 6)} />
-        <motion.div className="absolute top-1/2 right-0 w-32 h-32 rounded-full bg-pink-500/15 blur-2xl" {...pulse(2, 1.4, 3)} />
+        {/* OPTIMIZED BACKGROUND ELEMENTS */}
+        <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-violet-500/10 blur-3xl" />
+        <div className="absolute -bottom-20 -left-20 w-60 h-60 rounded-full bg-cyan-500/10 blur-3xl" />
       </motion.div>
       </Section>
     </section>
@@ -65,19 +64,10 @@ function CrazyCounter({ label, value, delay = 0, color = 'violet' }) {
       variants={explosion(delay)}
       className={`rounded-2xl border p-5 relative overflow-hidden group ${colorClasses[color]}`}
     >
-      {/* FLOATING BACKGROUND */}
-      <motion.div 
-        className={`absolute inset-0 rounded-2xl bg-gradient-to-br from-${color}-500/10 to-transparent`}
-        {...floating(delay, 20, 4)}
-      />
+      {/* STATIC BACKGROUND */}
+      <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br from-${color}-500/10 to-transparent`} />
       <AnimatedNumber to={value} delay={delay + 0.1} className="text-2xl font-semibold relative z-10" />
       <div className="text-xs mt-1 text-neutral-400 relative z-10">{label}</div>
-      
-      {/* PARTICLE TRAIL */}
-      <motion.div 
-        className="absolute top-2 right-2 w-1 h-1 bg-white/60 rounded-full"
-        {...pulse(delay + 0.5, 1.5, 1)}
-      />
     </motion.div>
   );
 }
@@ -87,22 +77,22 @@ function AnimatedNumber({ to = 0, duration = 1.2, delay = 0, className = '' }) {
   const ref = React.useRef(null);
 
   React.useEffect(() => {
-    let rafId;
-    let start;
-    const step = (t) => {
-      if (start === undefined) start = t;
-      const p = Math.min(1, (t - start - delay * 1000) / (duration * 1000));
-      if (p < 0) {
-        rafId = requestAnimationFrame(step);
-        return;
-      }
-      const eased = p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p; // easeInOutQuad
-      const val = Math.round(to * eased);
-      setN(val);
-      if (p < 1) rafId = requestAnimationFrame(step);
-    };
-    rafId = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(rafId);
+    const timer = setTimeout(() => {
+      let rafId;
+      let start;
+      const step = (t) => {
+        if (start === undefined) start = t;
+        const p = Math.min(1, (t - start) / (duration * 1000));
+        const eased = p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p; // easeInOutQuad
+        const val = Math.round(to * eased);
+        setN(val);
+        if (p < 1) rafId = requestAnimationFrame(step);
+      };
+      rafId = requestAnimationFrame(step);
+      return () => cancelAnimationFrame(rafId);
+    }, delay * 1000);
+
+    return () => clearTimeout(timer);
   }, [to, duration, delay]);
 
   return <div ref={ref} className={className}>{n}</div>;

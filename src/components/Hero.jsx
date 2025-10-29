@@ -22,7 +22,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
-      <motion.div style={{ y }} className="relative z-10 w-full max-w-6xl px-6 text-center">
+      <motion.div style={{ y }} className="relative z-10 w-full max-w-6xl px-6 text-center will-change-transform gpu-accelerated">
         <motion.h1
           className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.05] bg-clip-text text-transparent accent-gradient inline-flex flex-wrap justify-center gap-x-2"
           initial="hidden"
@@ -49,24 +49,20 @@ export default function Hero() {
         </motion.p>
       </motion.div>
 
-      {/* CRAZY FLOATING SHAPES */}
-      <motion.div className="absolute -left-10 top-24 w-40 h-40 rounded-full bg-violet-500/10 blur-2xl" {...morphing(0, 4)} />
-      <motion.div className="absolute right-0 bottom-24 w-56 h-56 rounded-full bg-cyan-400/10 blur-3xl" {...floating(0.6, 30, 5)} />
-      <motion.div className="absolute top-1/2 left-1/4 w-20 h-20 rounded-full bg-pink-500/20 blur-xl" {...spiral(1, 3)} />
-      <motion.div className="absolute top-1/3 right-1/3 w-32 h-32 rounded-full bg-yellow-500/15 blur-2xl" {...wave(2, 25, 4)} />
-      <motion.div className="absolute bottom-1/3 left-1/3 w-24 h-24 rounded-full bg-green-500/20 blur-xl" {...pulse(1.5, 1.3, 2.5)} />
+      {/* OPTIMIZED FLOATING SHAPES - Reduced for better performance */}
+      <motion.div className="absolute -left-10 top-24 w-40 h-40 rounded-full bg-violet-500/10 blur-2xl" {...floating(0, 20, 6)} />
+      <motion.div className="absolute right-0 bottom-24 w-56 h-56 rounded-full bg-cyan-400/10 blur-3xl" {...floating(0.6, 25, 8)} />
       
-      {/* PARTICLE SYSTEM */}
-      {[...Array(8)].map((_, i) => (
+      {/* REDUCED PARTICLE SYSTEM */}
+      {[...Array(4)].map((_, i) => (
         <motion.div
           key={i}
           className="absolute w-2 h-2 bg-white/30 rounded-full"
           style={{
-            left: `${20 + i * 10}%`,
-            top: `${30 + (i % 3) * 20}%`,
+            left: `${25 + i * 15}%`,
+            top: `${35 + (i % 2) * 30}%`,
           }}
-          {...wiggle(i * 0.2, 15, 0.8)}
-          {...floating(i * 0.3, 40, 6)}
+          {...floating(i * 0.4, 30, 8)}
         />
       ))}
 

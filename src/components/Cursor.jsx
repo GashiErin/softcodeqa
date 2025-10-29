@@ -9,24 +9,27 @@ export default function Cursor() {
     const ring = ringRef.current;
     let mouseX = -100, mouseY = -100; // offscreen init
     let ringX = -100, ringY = -100;
+    let rafId = null;
 
     const onMove = (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
       if (dot) {
-        dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+        dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
       }
     };
 
-    const raf = () => {
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
+    const updateCursor = () => {
+      ringX += (mouseX - ringX) * 0.15; // Slightly faster lerp
+      ringY += (mouseY - ringY) * 0.15;
       if (ring) {
-        ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
+        ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
       }
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(updateCursor);
     };
-    requestAnimationFrame(raf);
+
+    // Start the cursor animation loop
+    updateCursor();
 
     const onEnter = () => {
       if (!ring) return;
@@ -39,13 +42,14 @@ export default function Cursor() {
       ring.style.background = 'transparent';
     };
 
-    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mousemove', onMove, { passive: true });
     document.querySelectorAll('a, button, [role="button"], .interactive').forEach((el) => {
       el.addEventListener('mouseenter', onEnter);
       el.addEventListener('mouseleave', onLeave);
     });
 
     return () => {
+      if (rafId) cancelAnimationFrame(rafId);
       window.removeEventListener('mousemove', onMove);
       document.querySelectorAll('a, button, [role="button"], .interactive').forEach((el) => {
         el.removeEventListener('mouseenter', onEnter);

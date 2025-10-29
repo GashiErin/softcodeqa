@@ -17,8 +17,12 @@ function App() {
   useEffect(() => {
     const lenis = new Lenis({
       smoothWheel: true,
-      lerp: 0.1,
-      wheelMultiplier: 1,
+      lerp: 0.08, // Slightly faster for more responsive feel
+      wheelMultiplier: 1.2, // Slightly more responsive to wheel input
+      touchMultiplier: 2, // Better mobile experience
+      infinite: false,
+      gestureOrientation: 'vertical',
+      normalizeWheel: true,
     });
 
     function raf(time) {
@@ -36,7 +40,7 @@ function App() {
       <motion.div
         aria-hidden
         style={{ rotate }}
-        className="pointer-events-none fixed inset-0 -z-10 opacity-40"
+        className="pointer-events-none fixed inset-0 -z-10 opacity-40 will-change-transform gpu-accelerated"
       >
         <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_60%,rgba(167,139,250,0.15),rgba(34,211,238,0.12),transparent_60%)]" />
       </motion.div>
