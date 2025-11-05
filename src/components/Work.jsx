@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
-const projects = [
-  { id: 1, title: 'Astra Banking', category: 'Fintech', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-  { id: 2, title: 'Nova Health', category: 'Healthcare', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+export const projects = [
+  { id: 1, title: 'novatex', category: 'Fiberglass Mesh', image: '/LOGONOVATEX.png', photos: ['/novatex-screenshot-1.png', '/novatex-screenshot-2.png'] },
+  { id: 2, title: 'EdaSolar', category: 'Solar Panels', image: '/edalogo.png', photos: ['/eda1.png', '/eda2.png', '/eda3.png', '/eda4.png'] },
   { id: 3, title: 'Orbit Travel', category: 'Travel', image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
   { id: 4, title: 'Echo Media', category: 'Entertainment', image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
   { id: 5, title: 'Flux Mobility', category: 'Automotive', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
@@ -37,6 +38,7 @@ const cardVariants = {
 
 export default function Work() {
   const [active, setActive] = useState(null);
+  const navigate = useNavigate();
   return (
     <section id="work" className="relative py-24 sm:py-32 border-t border-neutral-900/60 snap-start">
       <div className="mx-auto max-w-6xl px-6">
@@ -49,12 +51,15 @@ export default function Work() {
           {projects.map((p, idx) => {
             return (
             <TiltCard key={p.id} idx={idx} onClick={() => setActive(p)}>
-              <div className="aspect-[4/3] overflow-hidden">
+              <div className={`aspect-[4/3] overflow-hidden ${p.id === 2 ? 'bg-neutral-900 flex items-center justify-center' : ''}`}>
                 <img
                   src={p.image}
                   alt={p.title}
                   loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  className={p.id === 2 
+                    ? "max-h-full max-w-full w-auto h-auto object-contain transition-transform duration-700 ease-out group-hover:scale-110 p-4"
+                    : "h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  }
                 />
               </div>
               <div className="p-4 flex items-center justify-between">
@@ -99,7 +104,16 @@ export default function Work() {
               <div className="p-6">
                 <h4 className="text-xl font-semibold">{active.title}</h4>
                 <p className="mt-2 text-neutral-300/90">Case Study placeholder. Describe the challenge, approach, and outcome with crisp visuals and metrics. Coming soon.</p>
-                <div className="mt-6 flex justify-end">
+                <div className="mt-6 flex justify-between items-center">
+                  <button 
+                    onClick={() => {
+                      setActive(null);
+                      navigate(`/project/${active.id}`);
+                    }} 
+                    className="px-6 py-2 rounded-full bg-gradient-to-r from-violet-500 to-cyan-500 text-white text-sm font-medium hover:from-violet-600 hover:to-cyan-600 transition-all duration-300"
+                  >
+                    View full project →
+                  </button>
                   <button onClick={() => setActive(null)} className="px-4 py-2 rounded-full bg-neutral-200 text-neutral-900 text-sm font-medium hover:bg-white transition-colors">Close</button>
                 </div>
               </div>

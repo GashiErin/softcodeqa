@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Lenis from 'lenis';
 import Hero from './components/Hero.jsx';
@@ -10,16 +11,18 @@ import Footer from './components/Footer.jsx';
 import Cursor from './components/Cursor.jsx';
 import Nav from './components/Nav.jsx';
 import IntroOverlay from './components/IntroOverlay.jsx';
+import ProjectDetail from './components/ProjectDetail.jsx';
 
-function App() {
+function HomePage() {
   const { scrollYProgress } = useScroll();
   const rotate = useTransform(scrollYProgress, [0, 1], ['0deg', '120deg']);
+  
   useEffect(() => {
     const lenis = new Lenis({
       smoothWheel: true,
-      lerp: 0.08, // Slightly faster for more responsive feel
-      wheelMultiplier: 1.2, // Slightly more responsive to wheel input
-      touchMultiplier: 2, // Better mobile experience
+      lerp: 0.08,
+      wheelMultiplier: 1.2,
+      touchMultiplier: 2,
       infinite: false,
       gestureOrientation: 'vertical',
       normalizeWheel: true,
@@ -56,6 +59,15 @@ function App() {
         <Footer />
       </div>
     </>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/project/:id" element={<ProjectDetail />} />
+    </Routes>
   );
 }
 

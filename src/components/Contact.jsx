@@ -124,27 +124,6 @@ export default function Contact() {
               </div>
             </motion.div>
 
-            {/* Office Address */}
-            <motion.div
-              variants={slideUp(0.6)}
-              className="group p-6 bg-neutral-900/30 border border-neutral-800 rounded-xl hover:border-violet-500/50 transition-all duration-300"
-            >
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-white">Office</h4>
-                  <p className="text-neutral-300">
-                    123 Creative Street<br />
-                    Design District, NY 10001
-                  </p>
-                </div>
-              </div>
-            </motion.div>
         </motion.div>
         </div>
       </div>
