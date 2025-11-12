@@ -81,6 +81,10 @@ export default function ProjectDetail() {
       normalizeWheel: true,
     });
 
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
+    lenis.scrollTo(0, { duration: 0 });
+
     function raf(time) {
       lenis.raf(time);
       requestAnimationFrame(raf);
