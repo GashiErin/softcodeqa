@@ -27,14 +27,13 @@ export default function About() {
         </motion.p>
 
         {/* CRAZY STATS WITH FLOATING BACKGROUNDS */}
-        <motion.div className="md:col-span-12 grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4" variants={slideUp(0.15)}>
+        <motion.div className="md:col-span-12 grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4" variants={slideUp(0.15)}>
           {[
-            { k: 'Projects', v: 120, color: 'violet' },
-            { k: 'Clients', v: 48, color: 'cyan' },
-            { k: 'Awards', v: 15, color: 'pink' },
-            { k: 'Years', v: 7, color: 'yellow' },
+            { k: 'Projects', v: 50, color: 'violet', suffix: '' },
+            { k: 'Clients', v: 25, color: 'cyan', suffix: '' },
+            { k: 'Delivered', v: 99, color: 'pink', suffix: '%' },
           ].map((s, i) => (
-            <CrazyCounter key={s.k} label={s.k} value={s.v} delay={0.2 + i * 0.05} color={s.color} />
+            <CrazyCounter key={s.k} label={s.k} value={s.v} delay={0.2 + i * 0.05} color={s.color} suffix={s.suffix} />
           ))}
         </motion.div>
         
@@ -48,7 +47,7 @@ export default function About() {
 }
 
 
-function CrazyCounter({ label, value, delay = 0, color = 'violet' }) {
+function CrazyCounter({ label, value, delay = 0, color = 'violet', suffix = '' }) {
   const colorClasses = {
     violet: 'bg-violet-500/20 border-violet-500/30',
     cyan: 'bg-cyan-500/20 border-cyan-500/30',
@@ -66,7 +65,10 @@ function CrazyCounter({ label, value, delay = 0, color = 'violet' }) {
     >
       {/* STATIC BACKGROUND */}
       <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br from-${color}-500/10 to-transparent`} />
-      <AnimatedNumber to={value} delay={delay + 0.1} className="text-2xl font-semibold relative z-10" />
+      <div className="text-2xl font-semibold relative z-10 flex items-baseline gap-1">
+        <AnimatedNumber to={value} delay={delay + 0.1} className="text-2xl font-semibold" />
+        {suffix && <span className="text-lg text-neutral-400">{suffix}</span>}
+      </div>
       <div className="text-xs mt-1 text-neutral-400 relative z-10">{label}</div>
     </motion.div>
   );

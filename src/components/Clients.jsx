@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 import { marquee, slideDown, morphing, floating, pulse, explosion, spiral } from '../utils/motion.js';
 
 const logos = [
-  { id: 1, name: 'Alpha', src: 'https://dummyimage.com/200x60/111/aaa&text=Alpha' },
-  { id: 2, name: 'Beta', src: 'https://dummyimage.com/200x60/111/aaa&text=Beta' },
-  { id: 3, name: 'Gamma', src: 'https://dummyimage.com/200x60/111/aaa&text=Gamma' },
-  { id: 4, name: 'Delta', src: 'https://dummyimage.com/200x60/111/aaa&text=Delta' },
-  { id: 5, name: 'Epsilon', src: 'https://dummyimage.com/200x60/111/aaa&text=Epsilon' },
-  { id: 6, name: 'Zeta', src: 'https://dummyimage.com/200x60/111/aaa&text=Zeta' },
-  { id: 7, name: 'Eta', src: 'https://dummyimage.com/200x60/111/aaa&text=Eta' },
-  { id: 8, name: 'Theta', src: 'https://dummyimage.com/200x60/111/aaa&text=Theta' },
+  { id: 1, name: 'TechVenture Group', src: 'https://dummyimage.com/200x60/1a1a2e/00d4ff&text=TechVenture' },
+  { id: 2, name: 'Sustainable Energy Co', src: 'https://dummyimage.com/200x60/1a1a2e/00ff88&text=SustainEnergy' },
+  { id: 3, name: 'Precision Manufacturing', src: 'https://dummyimage.com/200x60/1a1a2e/ff00d4&text=Precision' },
+  { id: 4, name: 'Urban Design Studios', src: 'https://dummyimage.com/200x60/1a1a2e/ffa500&text=UrbanDesign' },
+  { id: 5, name: 'Innovation Labs', src: 'https://dummyimage.com/200x60/1a1a2e/00d4ff&text=InnovateLabs' },
+  { id: 6, name: 'Global Solutions Inc', src: 'https://dummyimage.com/200x60/1a1a2e/00ff88&text=GlobalSol' },
+  { id: 7, name: 'NextGen Industries', src: 'https://dummyimage.com/200x60/1a1a2e/ff00d4&text=NextGen' },
+  { id: 8, name: 'Digital Dynamics', src: 'https://dummyimage.com/200x60/1a1a2e/ffa500&text=DigitalDyn' },
 ];
 
 export default function Clients() {
@@ -18,7 +18,7 @@ export default function Clients() {
     <section id="clients" className="relative py-24 sm:py-32 border-t border-neutral-900/60 snap-start">
       <div className="mx-auto max-w-6xl px-6">
         <motion.h3 className="text-2xl sm:text-3xl font-semibold mb-10" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.4 }} variants={slideDown(0)}>
-          <span className="accent-gradient bg-clip-text text-transparent">Trusted</span> by leading teams
+          <span className="accent-gradient bg-clip-text text-transparent">Trusted</span> by industry leaders
         </motion.h3>
 
         {/* CRAZY MARQUEE WITH FLOATING BACKGROUNDS */}
