@@ -6,6 +6,8 @@ import { projects } from './Work.jsx';
 import Nav from './Nav.jsx';
 import Footer from './Footer.jsx';
 import Cursor from './Cursor.jsx';
+import Prism from './Prism.jsx';
+import Aurora from './Aurora.jsx';
 
 export default function ProjectDetail() {
   const { id } = useParams();
@@ -131,20 +133,27 @@ export default function ProjectDetail() {
 
   return (
     <>
-      <motion.div
-        aria-hidden
-        style={{ rotate }}
-        className="pointer-events-none fixed inset-0 -z-10 opacity-40 will-change-transform gpu-accelerated"
-      >
-        <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_60%,rgba(167,139,250,0.15),rgba(34,211,238,0.12),transparent_60%)]" />
-      </motion.div>
-      <Cursor />
       <Nav />
       
       <div className="min-h-screen bg-neutral-950 text-white pt-14">
         {/* Hero Section */}
-        <section className="relative py-24 sm:py-32 border-b border-neutral-900/60 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-cyan-500/5 to-pink-500/5" />
+        <section className="relative pt-20 pb-14 sm:pt-24 sm:pb-16 border-b border-neutral-900/60 overflow-hidden">
+          <div className="absolute inset-0 opacity-70">
+            <div className="w-full h-full relative">
+              <Prism
+                animationType="rotate"
+                timeScale={0.5}
+                height={3.5}
+                baseWidth={5.5}
+                scale={3.6}
+                hueShift={0}
+                colorFrequency={1}
+                noise={0}
+                glow={1}
+              />
+            </div>
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-br from-black via-neutral-950/80 to-neutral-950/95" />
           <motion.div 
             className="absolute top-0 left-1/4 w-96 h-96 rounded-full bg-yellow-500/5 blur-3xl"
             animate={{
@@ -231,22 +240,17 @@ export default function ProjectDetail() {
           </div>
         </section>
 
-        {/* Project Photos Section */}
-        <section className="relative py-24 sm:py-32">
-          <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-cyan-500/5 to-pink-500/5" />
-          <motion.div 
-            className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full bg-green-500/5 blur-3xl"
-            animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.2, 0.4, 0.2],
-            }}
-            transition={{
-              duration: 12,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-          
+        {/* Project Photos Section with Aurora background */}
+        <section className="relative pt-14 pb-24 sm:pt-16 sm:pb-28 overflow-hidden">
+          <div className="pointer-events-none absolute inset-0 z-0 opacity-80">
+            <Aurora
+              colorStops={['#7cff67', '#B19EEF', '#5227FF']}
+              blend={0.5}
+              amplitude={1.0}
+              speed={1}
+            />
+          </div>
+
           <div className="mx-auto max-w-6xl px-6 relative z-10">
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
@@ -266,13 +270,13 @@ export default function ProjectDetail() {
                     initial={{ opacity: 0, y: 50, scale: 0.9 }}
                     whileInView={{ opacity: 1, y: 0, scale: 1 }}
                     viewport={{ once: true, amount: 0.3 }}
-                    transition={{ 
-                      duration: 0.6, 
+                    transition={{
+                      duration: 0.6,
                       delay: idx * 0.15,
-                      ease: [0.22, 1, 0.36, 1]
+                      ease: [0.22, 1, 0.36, 1],
                     }}
                     whileHover={{ scale: 1.02, y: -5 }}
-                    className="group relative overflow-hidden rounded-2xl bg-neutral-900 border border-neutral-800 cursor-pointer"
+                    className="group relative overflow-hidden rounded-2xl bg-neutral-900/70 border border-neutral-800/80 cursor-pointer backdrop-blur-sm"
                     onClick={() => openPhoto(idx)}
                   >
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
@@ -292,7 +296,7 @@ export default function ProjectDetail() {
                       alt={`${project.title} - Screenshot ${idx + 1}`}
                       className="w-full h-auto object-cover"
                       whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.6, ease: "easeOut" }}
+                      transition={{ duration: 0.6, ease: 'easeOut' }}
                     />
                   </motion.div>
                 ))}
@@ -303,16 +307,16 @@ export default function ProjectDetail() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className="text-center py-16 border border-neutral-800 rounded-2xl bg-neutral-900/30"
+                className="text-center py-16 border border-neutral-800 rounded-2xl bg-neutral-900/50 backdrop-blur-sm"
               >
-                <p className="text-neutral-400 text-lg">Project photos will be displayed here</p>
+                <p className="text-neutral-300 text-lg">Project photos will be displayed here</p>
                 <p className="text-neutral-500 text-sm mt-2">Add photos to the project data to see them here</p>
               </motion.div>
             )}
           </div>
         </section>
 
-        {/* Project Details Section */}
+        {/* Project Details Section (no Aurora) */}
         <section className="relative py-24 sm:py-32 border-t border-neutral-900/60">
           <div className="mx-auto max-w-6xl px-6">
             <motion.div
@@ -322,7 +326,7 @@ export default function ProjectDetail() {
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="prose prose-invert max-w-none"
             >
-              <motion.h2 
+              <motion.h2
                 className="text-3xl font-semibold mb-6"
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -331,14 +335,14 @@ export default function ProjectDetail() {
               >
                 Project Overview
               </motion.h2>
-              <motion.p 
+              <motion.p
                 className="text-neutral-300/90 text-lg leading-relaxed mb-6"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2, duration: 0.6 }}
               >
-                Detailed case study content will go here. This section can include information about the project goals, 
+                Detailed case study content will go here. This section can include information about the project goals,
                 challenges faced, solutions implemented, and the final results.
               </motion.p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">

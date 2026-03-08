@@ -9,38 +9,105 @@ const reveal = {
 };
 
 export default function About() {
-  return (
-    <section id="about" className="relative py-24 sm:py-32 border-t border-neutral-900/60 snap-start">
-      <Section>
-      <motion.div
-        variants={staggerContainer(0.08, 0)}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.4 }}
-        className="mx-auto max-w-6xl px-6 grid grid-cols-1 md:grid-cols-12 gap-10"
-      >
-        <motion.h2 className="md:col-span-5 text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight" variants={slideRight(0)}>
-          Building experiences for tomorrow.
-        </motion.h2>
-        <motion.p className="md:col-span-7 text-neutral-300/90 leading-relaxed" variants={slideLeft(0.1)}>
-          We craft world-class digital products and brands for leading companies and ambitious startups. Our team blends strategy, design, and engineering to deliver work that feels inevitable.
-        </motion.p>
+  const stats = [
+    { k: 'Projects', v: 50, color: 'violet', suffix: '', caption: 'Launched brand & product experiences.' },
+    { k: 'Clients', v: 25, color: 'cyan', suffix: '', caption: 'Partners across Europe & beyond.' },
+    { k: 'Delivered', v: 99, color: 'pink', suffix: '%', caption: 'On-time, on-budget delivery rate.' },
+    { k: 'Countries', v: 5, color: 'yellow', suffix: '+', caption: 'Work shipped to different markets.' },
+  ];
 
-        {/* CRAZY STATS WITH FLOATING BACKGROUNDS */}
-        <motion.div className="md:col-span-12 grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4" variants={slideUp(0.15)}>
-          {[
-            { k: 'Projects', v: 50, color: 'violet', suffix: '' },
-            { k: 'Clients', v: 25, color: 'cyan', suffix: '' },
-            { k: 'Delivered', v: 99, color: 'pink', suffix: '%' },
-          ].map((s, i) => (
-            <CrazyCounter key={s.k} label={s.k} value={s.v} delay={0.2 + i * 0.05} color={s.color} suffix={s.suffix} />
-          ))}
+  return (
+    <section
+      id="about"
+      className="relative py-24 sm:py-32 border-t border-neutral-900/60 snap-start overflow-hidden"
+    >
+      {/* soft background glows */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute -top-32 -left-10 w-64 h-64 rounded-full bg-violet-500/15 blur-3xl" />
+        <div className="absolute top-20 right-0 w-72 h-72 rounded-full bg-cyan-400/10 blur-3xl" />
+        <div className="absolute bottom-0 left-1/3 w-80 h-80 rounded-full bg-fuchsia-500/10 blur-3xl" />
+      </div>
+
+      <Section>
+        <motion.div
+          variants={staggerContainer(0.08, 0)}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.4 }}
+          className="mx-auto max-w-6xl px-6 space-y-10"
+        >
+          {/* heading / copy */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
+            <motion.div
+              variants={slideRight(0)}
+              className="md:col-span-6"
+            >
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight bg-gradient-to-r from-white via-violet-200 to-cyan-200 bg-clip-text text-transparent">
+                Building experiences for tomorrow.
+              </h2>
+            </motion.div>
+            <motion.div
+              variants={slideLeft(0.1)}
+              className="md:col-span-6 text-neutral-300/90 leading-relaxed text-sm sm:text-base"
+            >
+              <p>
+                SoftCodeEA is a design-driven studio crafting cinematic digital brands, products, and interfaces. We
+                blend motion, storytelling, and engineering to create work that feels alive, intentional, and
+                unmistakably modern.
+              </p>
+              <p className="mt-4 text-neutral-400 text-sm">
+                From early-stage startups to established teams, we help you move from vague ideas to crisp, shippable
+                experiences that people actually remember.
+              </p>
+            </motion.div>
+          </div>
+
+          {/* horizontal stats slider */}
+          <motion.div variants={slideUp(0.15)}>
+            <div className="flex items-center justify-between mb-4 gap-4">
+              <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-neutral-400">
+                Studio highlights
+              </p>
+              <span className="hidden sm:inline text-[11px] text-neutral-500">
+                Drag / scroll sideways
+              </span>
+            </div>
+
+            <div className="relative -mx-4 sm:mx-0 overflow-hidden">
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-neutral-950 to-transparent" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-neutral-950 to-transparent" />
+
+              <motion.div
+                className="flex gap-4 sm:gap-6 pb-2 px-4 sm:px-0"
+                initial={{ x: '0%' }}
+                animate={{ x: '-35%' }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: 'linear',
+                }}
+              >
+                {[...stats, ...stats].map((s, i) => (
+                  <div
+                    key={`${s.k}-${i}`}
+                    className="min-w-[220px] sm:min-w-[260px] md:min-w-[280px]"
+                  >
+                    <CrazyCounter
+                      label={s.k}
+                      value={s.v}
+                      delay={0.2 + (i % stats.length) * 0.05}
+                      color={s.color}
+                      suffix={s.suffix}
+                    />
+                    <p className="mt-3 text-xs sm:text-sm text-neutral-400">
+                      {s.caption}
+                    </p>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+          </motion.div>
         </motion.div>
-        
-        {/* OPTIMIZED BACKGROUND ELEMENTS */}
-        <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-violet-500/10 blur-3xl" />
-        <div className="absolute -bottom-20 -left-20 w-60 h-60 rounded-full bg-cyan-500/10 blur-3xl" />
-      </motion.div>
       </Section>
     </section>
   );

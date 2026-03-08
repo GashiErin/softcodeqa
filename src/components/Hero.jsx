@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { textReveal, floatLoop, slideDown, morphing, floating, pulse, wiggle, explosion, spiral, wave } from '../utils/motion.js';
 import { useRef } from 'react';
+import Orb from './Orb.jsx';
 
 const container = {
   hidden: { opacity: 0, y: 24 },
@@ -15,39 +16,47 @@ export default function Hero() {
   const headline = 'We design the future of digital experiences.';
   const words = headline.split(' ');
   return (
-    <section ref={ref} className="relative min-h-[100svh] flex items-center justify-center overflow-hidden snap-start">
+    <section ref={ref} className="relative min-h-[100svh] flex items-center justify-center overflow-hidden snap-start bg-black">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(1200px_600px_at_50%_-10%,rgba(255,255,255,0.08),transparent),radial-gradient(800px_400px_at_10%_80%,rgba(120,119,198,0.08),transparent)]" />
-      <div className="absolute inset-0 opacity-25">
-        <video className="w-full h-full object-cover" src="https://cdn.coverr.co/videos/coverr-night-city-traffic-2127/1080p.mp4" autoPlay loop muted playsInline />
-        <div className="absolute inset-0 bg-black/50" />
-      </div>
 
-      <motion.div style={{ y }} className="relative z-10 w-full max-w-6xl px-6 text-center will-change-transform gpu-accelerated">
-        <motion.h1
-          className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.05] bg-clip-text text-transparent accent-gradient inline-flex flex-wrap justify-center gap-x-2"
-          initial="hidden"
-          animate="visible"
-        >
-          {words.map((w, i) => (
-            <span key={i} className="overflow-hidden inline-block">
-              <motion.span
-                className="inline-block"
-                variants={textReveal(i * 0.03)}
-              >
-                {w}
-              </motion.span>
-            </span>
-          ))}
-        </motion.h1>
-        <motion.p
-          variants={slideDown(0.15)}
-          initial="hidden"
-          animate="visible"
-          className="mt-6 text-neutral-300/80 max-w-2xl mx-auto"
-        >
-          Driven by design. Powered by technology.
-        </motion.p>
-      </motion.div>
+      <div className="relative z-10 w-full max-w-6xl px-6 flex flex-col lg:flex-row items-center gap-12">
+        <motion.div style={{ y }} className="w-full lg:w-1/2 text-center lg:text-left will-change-transform gpu-accelerated">
+          <motion.h1
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.05] bg-clip-text text-transparent accent-gradient inline-flex flex-wrap justify-center lg:justify-start gap-x-2"
+            initial="hidden"
+            animate="visible"
+          >
+            {words.map((w, i) => (
+              <span key={i} className="overflow-hidden inline-block">
+                <motion.span
+                  className="inline-block"
+                  variants={textReveal(i * 0.03)}
+                >
+                  {w}
+                </motion.span>
+              </span>
+            ))}
+          </motion.h1>
+          <motion.p
+            variants={slideDown(0.15)}
+            initial="hidden"
+            animate="visible"
+            className="mt-6 text-neutral-300/80 max-w-2xl mx-auto lg:mx-0"
+          >
+            Driven by design. Powered by technology.
+          </motion.p>
+        </motion.div>
+
+        <div className="w-full lg:w-1/2 h-[400px] sm:h-[500px] lg:h-[600px] relative">
+          <Orb
+            hoverIntensity={2}
+            rotateOnHover
+            hue={0}
+            forceHoverState={false}
+            backgroundColor="#000000"
+          />
+        </div>
+      </div>
 
       {/* OPTIMIZED FLOATING SHAPES - Reduced for better performance */}
       <motion.div className="absolute -left-10 top-24 w-40 h-40 rounded-full bg-violet-500/10 blur-2xl" {...floating(0, 20, 6)} />
