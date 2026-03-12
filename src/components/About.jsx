@@ -24,7 +24,7 @@ export default function About() {
     { k: 'Countries', v: 5, color: 'yellow', suffix: '+', caption: 'Work shipped to different markets.' },
   ];
   const isLowPower = typeof window !== 'undefined' && window.matchMedia('(max-width: 640px), (pointer: coarse)').matches;
-  const marqueeStats = isLowPower ? stats : [...stats, ...stats];
+  const marqueeStats = [...stats, ...stats];
 
   return (
     <section
@@ -40,15 +40,15 @@ export default function About() {
 
       <Section>
         <motion.div
-          initial="hidden"
-          whileInView="visible"
+          initial={isLowPower ? false : 'hidden'}
+          whileInView={isLowPower ? undefined : 'visible'}
           viewport={{ once: true, amount: 0.4 }}
           className="mx-auto max-w-6xl px-6 space-y-10"
         >
           {/* heading / copy */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
             <motion.div
-              variants={cardVariants}
+              variants={isLowPower ? undefined : cardVariants}
               custom={0}
               className="md:col-span-6"
             >
@@ -57,7 +57,7 @@ export default function About() {
               </h2>
             </motion.div>
             <motion.div
-              variants={cardVariants}
+              variants={isLowPower ? undefined : cardVariants}
               custom={1}
               className="md:col-span-6 text-neutral-300/90 leading-relaxed text-sm sm:text-base"
             >
@@ -72,7 +72,7 @@ export default function About() {
           </div>
 
           {/* horizontal stats slider */}
-          <motion.div variants={cardVariants} custom={2}>
+          <motion.div variants={isLowPower ? undefined : cardVariants} custom={2}>
             <div className="flex items-center justify-between mb-4 gap-4">
               <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-neutral-400">
                 Studio highlights
@@ -86,7 +86,7 @@ export default function About() {
               <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-neutral-950 to-transparent" />
               <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-neutral-950 to-transparent" />
 
-              <div className={`about-marquee-track flex ${isLowPower ? 'w-full' : 'w-max'} gap-4 sm:gap-6 px-4 sm:px-0 will-change-transform`}>
+              <div className="about-marquee-track flex w-max gap-4 sm:gap-6 px-4 sm:px-0 will-change-transform">
                 {marqueeStats.map((s, i) => (
                   <div
                     key={`${s.k}-${i}`}
@@ -99,6 +99,7 @@ export default function About() {
                       index={3 + i}
                       color={s.color}
                       suffix={s.suffix}
+                      animate={!isLowPower}
                     />
                     <p className="mt-3 min-h-[2.75rem] text-xs sm:text-sm text-neutral-400 leading-relaxed">
                       {s.caption}
@@ -115,7 +116,7 @@ export default function About() {
 }
 
 
-function CrazyCounter({ label, value, delay = 0, color = 'violet', suffix = '', index = 0 }) {
+function CrazyCounter({ label, value, delay = 0, color = 'violet', suffix = '', index = 0, animate = true }) {
   const colorClasses = {
     violet: 'bg-violet-500/20 border-violet-500/30',
     cyan: 'bg-cyan-500/20 border-cyan-500/30',
@@ -129,31 +130,42 @@ function CrazyCounter({ label, value, delay = 0, color = 'violet', suffix = '', 
     yellow: 'bg-gradient-to-br from-yellow-500/10 to-transparent',
   };
   
+  const Wrapper = animate ? motion.div : 'div';
+  const wrapperProps = animate
+    ? {
+        initial: 'hidden',
+        whileInView: 'visible',
+        viewport: { once: true, amount: 0.4 },
+        variants: cardVariants,
+        custom: index,
+      }
+    : {};
+
   return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.4 }}
-      variants={cardVariants}
-      custom={index}
+    <Wrapper
+      {...wrapperProps}
       className={`h-full rounded-2xl border p-5 relative overflow-hidden group ${colorClasses[color]}`}
     >
       {/* STATIC BACKGROUND */}
       <div className={`absolute inset-0 rounded-2xl ${glowClasses[color]}`} />
       <div className="text-2xl font-semibold relative z-10 flex items-baseline gap-1">
-        <AnimatedNumber to={value} delay={delay + 0.1} className="text-2xl font-semibold" />
+        <AnimatedNumber to={value} delay={delay + 0.1} className="text-2xl font-semibold" animate={animate} />
         {suffix && <span className="text-lg text-neutral-400">{suffix}</span>}
       </div>
       <div className="text-xs mt-1 text-neutral-400 relative z-10">{label}</div>
-    </motion.div>
+    </Wrapper>
   );
 }
 
-function AnimatedNumber({ to = 0, duration = 1.2, delay = 0, className = '' }) {
+function AnimatedNumber({ to = 0, duration = 1.2, delay = 0, className = '', animate = true }) {
   const [n, setN] = React.useState(0);
   const ref = React.useRef(null);
 
   React.useEffect(() => {
+    if (!animate) {
+      setN(to);
+      return undefined;
+    }
     const timer = setTimeout(() => {
       let rafId;
       let start;
