@@ -62,19 +62,6 @@ export default function Hero() {
       <motion.div className="absolute -left-10 top-24 w-40 h-40 rounded-full bg-violet-500/10 blur-2xl" {...floating(0, 20, 6)} />
       <motion.div className="absolute right-0 bottom-24 w-56 h-56 rounded-full bg-cyan-400/10 blur-3xl" {...floating(0.6, 25, 8)} />
       
-      {/* REDUCED PARTICLE SYSTEM */}
-      {[...Array(4)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-2 h-2 bg-white/30 rounded-full"
-          style={{
-            left: `${25 + i * 15}%`,
-            top: `${35 + (i % 2) * 30}%`,
-          }}
-          {...floating(i * 0.4, 30, 8)}
-        />
-      ))}
-
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
         <div className="flex flex-col items-center text-xs tracking-widest text-neutral-400">
           <span>SCROLL TO EXPLORE</span>

@@ -15,6 +15,7 @@ export default function About() {
     { k: 'Delivered', v: 99, color: 'pink', suffix: '%', caption: 'On-time, on-budget delivery rate.' },
     { k: 'Countries', v: 5, color: 'yellow', suffix: '+', caption: 'Work shipped to different markets.' },
   ];
+  const marqueeStats = [...stats, ...stats];
 
   return (
     <section
@@ -51,9 +52,7 @@ export default function About() {
               className="md:col-span-6 text-neutral-300/90 leading-relaxed text-sm sm:text-base"
             >
               <p>
-                SoftCodeEA is a design-driven studio crafting cinematic digital brands, products, and interfaces. We
-                blend motion, storytelling, and engineering to create work that feels alive, intentional, and
-                unmistakably modern.
+                SoftCodeEA is a design-driven studio crafting cinematic websites, digital brands, products, and interfaces. We blend motion, storytelling, and engineering to create work that feels alive, intentional, and unmistakably modern.
               </p>
               <p className="mt-4 text-neutral-400 text-sm">
                 From early-stage startups to established teams, we help you move from vague ideas to crisp, shippable
@@ -69,28 +68,19 @@ export default function About() {
                 Studio highlights
               </p>
               <span className="hidden sm:inline text-[11px] text-neutral-500">
-                Drag / scroll sideways
+                Auto-scrolling highlights
               </span>
             </div>
 
-            <div className="relative -mx-4 sm:mx-0 overflow-hidden">
+            <div className="relative -mx-4 sm:mx-0 overflow-hidden py-1">
               <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-neutral-950 to-transparent" />
               <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-neutral-950 to-transparent" />
 
-              <motion.div
-                className="flex gap-4 sm:gap-6 pb-2 px-4 sm:px-0"
-                initial={{ x: '0%' }}
-                animate={{ x: '-35%' }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: 'linear',
-                }}
-              >
-                {[...stats, ...stats].map((s, i) => (
+              <div className="about-marquee-track flex w-max gap-4 sm:gap-6 px-4 sm:px-0 will-change-transform">
+                {marqueeStats.map((s, i) => (
                   <div
                     key={`${s.k}-${i}`}
-                    className="min-w-[220px] sm:min-w-[260px] md:min-w-[280px]"
+                    className="about-marquee-item flex-none w-[220px] sm:w-[260px] md:w-[280px] flex flex-col"
                   >
                     <CrazyCounter
                       label={s.k}
@@ -99,12 +89,12 @@ export default function About() {
                       color={s.color}
                       suffix={s.suffix}
                     />
-                    <p className="mt-3 text-xs sm:text-sm text-neutral-400">
+                    <p className="mt-3 min-h-[2.75rem] text-xs sm:text-sm text-neutral-400 leading-relaxed">
                       {s.caption}
                     </p>
                   </div>
                 ))}
-              </motion.div>
+              </div>
             </div>
           </motion.div>
         </motion.div>
@@ -121,6 +111,12 @@ function CrazyCounter({ label, value, delay = 0, color = 'violet', suffix = '' }
     pink: 'bg-pink-500/20 border-pink-500/30',
     yellow: 'bg-yellow-500/20 border-yellow-500/30',
   };
+  const glowClasses = {
+    violet: 'bg-gradient-to-br from-violet-500/10 to-transparent',
+    cyan: 'bg-gradient-to-br from-cyan-500/10 to-transparent',
+    pink: 'bg-gradient-to-br from-pink-500/10 to-transparent',
+    yellow: 'bg-gradient-to-br from-yellow-500/10 to-transparent',
+  };
   
   return (
     <motion.div
@@ -128,10 +124,10 @@ function CrazyCounter({ label, value, delay = 0, color = 'violet', suffix = '' }
       whileInView="visible"
       viewport={{ once: true, amount: 0.4 }}
       variants={explosion(delay)}
-      className={`rounded-2xl border p-5 relative overflow-hidden group ${colorClasses[color]}`}
+      className={`h-full rounded-2xl border p-5 relative overflow-hidden group ${colorClasses[color]}`}
     >
       {/* STATIC BACKGROUND */}
-      <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br from-${color}-500/10 to-transparent`} />
+      <div className={`absolute inset-0 rounded-2xl ${glowClasses[color]}`} />
       <div className="text-2xl font-semibold relative z-10 flex items-baseline gap-1">
         <AnimatedNumber to={value} delay={delay + 0.1} className="text-2xl font-semibold" />
         {suffix && <span className="text-lg text-neutral-400">{suffix}</span>}

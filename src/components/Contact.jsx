@@ -6,7 +6,7 @@ import SpotlightCard from './SpotlightCard.jsx';
 export default function Contact() {
 
   return (
-    <section id="contact" className="relative py-24 sm:py-32 border-t border-neutral-900/60 snap-start overflow-hidden">
+    <section id="contact" className="relative pt-16 pb-24 sm:pt-20 sm:pb-32 border-t border-neutral-900/60 snap-start overflow-hidden">
       {/* OPTIMIZED BACKGROUND EFFECTS */}
       <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-cyan-500/5 to-pink-500/5" />
       <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full bg-yellow-500/5 blur-3xl" />
@@ -128,5 +128,3 @@ export default function Contact() {
     </section>
   );
 }
-
-

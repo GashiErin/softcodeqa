@@ -113,12 +113,12 @@ export default function IntroOverlay() {
               <motion.span
                 className="text-2xl sm:text-3xl md:text-4xl font-semibold bg-gradient-to-r from-white via-violet-200 to-cyan-200 bg-clip-text text-transparent tracking-tight"
                 initial={{ opacity: 0 }}
-                animate={{ 
+                animate={{
                   opacity: 1,
                   transition: { delay: 1 }
                 }}
               >
-                SoftCodeEA
+                Build Your Website With US
               </motion.span>
             </motion.div>
           </motion.div>

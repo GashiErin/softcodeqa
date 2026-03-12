@@ -57,4 +57,36 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+/* About section marquee */
+@keyframes aboutMarquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.about-marquee-track {
+  animation: aboutMarquee 18s linear infinite;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+.about-marquee-item {
+  transform: translateZ(0);
+}
+
+@media (max-width: 640px) {
+  .about-marquee-track {
+    animation-duration: 22s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-marquee-track {
+    animation: none;
+  }
+}
+
 
