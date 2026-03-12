@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import Lenis from 'lenis';
@@ -14,6 +14,8 @@ export default function ProjectDetail() {
   const navigate = useNavigate();
   const { scrollYProgress } = useScroll();
   const rotate = useTransform(scrollYProgress, [0, 1], ['0deg', '120deg']);
+  const lenisRef = useRef(null);
+  const containerRef = useRef(null);
   
   const project = projects.find(p => p.id === parseInt(id));
   const projectPhotos = project?.photos || [];
@@ -82,6 +84,7 @@ export default function ProjectDetail() {
       gestureOrientation: 'vertical',
       normalizeWheel: true,
     });
+    lenisRef.current = lenis;
 
     // Scroll to top when component mounts
     window.scrollTo(0, 0);
@@ -93,7 +96,22 @@ export default function ProjectDetail() {
     }
     requestAnimationFrame(raf);
     return () => {
+      lenisRef.current = null;
       lenis.destroy();
+    };
+  }, []);
+
+  useEffect(() => {
+    const target = containerRef.current;
+    const lenis = lenisRef.current;
+    if (!target || !lenis || !window.ResizeObserver) return undefined;
+
+    const ro = new ResizeObserver(() => {
+      lenis.resize();
+    });
+    ro.observe(target);
+    return () => {
+      ro.disconnect();
     };
   }, []);
 
@@ -135,7 +153,7 @@ export default function ProjectDetail() {
     <>
       <Nav />
       
-      <div className="min-h-screen bg-neutral-950 text-white pt-14">
+      <div ref={containerRef} className="min-h-screen bg-neutral-950 text-white pt-14">
         {/* Hero Section */}
         <section className="relative pt-20 pb-14 sm:pt-24 sm:pb-16 border-b border-neutral-900/60 overflow-hidden">
           <div className="absolute inset-0 opacity-70">
@@ -550,4 +568,3 @@ export default function ProjectDetail() {
     </>
   );
 }
-

@@ -84,6 +84,8 @@ export default function Aurora(props) {
 
     let program;
 
+    let resizeObserver;
+
     function resize() {
       if (!ctn) return;
       const width = ctn.offsetWidth;
@@ -94,6 +96,10 @@ export default function Aurora(props) {
       }
     }
     window.addEventListener('resize', resize);
+    if (window.ResizeObserver) {
+      resizeObserver = new ResizeObserver(resize);
+      resizeObserver.observe(ctn);
+    }
 
     const geometry = new Triangle(gl);
     if (geometry.attributes.uv) {
@@ -136,6 +142,7 @@ export default function Aurora(props) {
     return () => {
       cancelAnimationFrame(animateId);
       window.removeEventListener('resize', resize);
+      if (resizeObserver) resizeObserver.disconnect();
       if (ctn && gl.canvas.parentNode === ctn) {
         ctn.removeChild(gl.canvas);
       }
@@ -146,4 +153,3 @@ export default function Aurora(props) {
 
   return <div ref={ctnDom} className="aurora-container" />;
 }
-
