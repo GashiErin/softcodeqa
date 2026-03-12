@@ -79,7 +79,10 @@ body {
 
 @media (max-width: 640px) {
   .about-marquee-track {
-    animation-duration: 22s;
+    animation-duration: 32s;
+  }
+  .about-marquee-item {
+    width: 200px;
   }
 }
 

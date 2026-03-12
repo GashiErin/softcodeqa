@@ -23,7 +23,8 @@ export default function About() {
     { k: 'Delivered', v: 99, color: 'pink', suffix: '%', caption: 'On-time, on-budget delivery rate.' },
     { k: 'Countries', v: 5, color: 'yellow', suffix: '+', caption: 'Work shipped to different markets.' },
   ];
-  const marqueeStats = [...stats, ...stats];
+  const isLowPower = typeof window !== 'undefined' && window.matchMedia('(max-width: 640px), (pointer: coarse)').matches;
+  const marqueeStats = isLowPower ? stats : [...stats, ...stats];
 
   return (
     <section
@@ -85,7 +86,7 @@ export default function About() {
               <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-neutral-950 to-transparent" />
               <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-neutral-950 to-transparent" />
 
-              <div className="about-marquee-track flex w-max gap-4 sm:gap-6 px-4 sm:px-0 will-change-transform">
+              <div className={`about-marquee-track flex ${isLowPower ? 'w-full' : 'w-max'} gap-4 sm:gap-6 px-4 sm:px-0 will-change-transform`}>
                 {marqueeStats.map((s, i) => (
                   <div
                     key={`${s.k}-${i}`}
