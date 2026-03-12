@@ -211,9 +211,11 @@ export default function Orb({
 
     const mesh = new Mesh(gl, { geometry, program });
 
+    const isLowPower = window.matchMedia('(max-width: 768px), (pointer: coarse)').matches;
+
     function resize() {
       if (!container) return;
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = Math.min(window.devicePixelRatio || 1, isLowPower ? 1 : 2);
       const width = container.clientWidth;
       const height = container.clientHeight;
       renderer.setSize(width * dpr, height * dpr);
@@ -256,23 +258,28 @@ export default function Orb({
       targetHover = 0;
     };
 
-    container.addEventListener('mousemove', handleMouseMove);
-    container.addEventListener('mouseleave', handleMouseLeave);
+    if (!isLowPower) {
+      container.addEventListener('mousemove', handleMouseMove);
+      container.addEventListener('mouseleave', handleMouseLeave);
+    }
 
     let rafId;
+    let lastRender = 0;
     const update = (t) => {
       rafId = requestAnimationFrame(update);
+      if (isLowPower && t - lastRender < 33) return; // cap ~30fps on phones
+      lastRender = t;
       const dt = (t - lastTime) * 0.001;
       lastTime = t;
       program.uniforms.iTime.value = t * 0.001;
       program.uniforms.hue.value = hue;
-      program.uniforms.hoverIntensity.value = hoverIntensity;
+      program.uniforms.hoverIntensity.value = hoverIntensity * (isLowPower ? 0.5 : 1);
       program.uniforms.backgroundColor.value = hexToVec3(backgroundColor);
 
       const effectiveHover = forceHoverState ? 1 : targetHover;
       program.uniforms.hover.value += (effectiveHover - program.uniforms.hover.value) * 0.1;
 
-      if (rotateOnHover && effectiveHover > 0.5) {
+      if (!isLowPower && rotateOnHover && effectiveHover > 0.5) {
         currentRot += dt * rotationSpeed;
       }
       program.uniforms.rot.value = currentRot;
