@@ -3,6 +3,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function IntroOverlay() {
   const [show, setShow] = useState(true);
+  const cardVariants = {
+    hidden: { opacity: 0, y: 24, scale: 0.98 },
+    visible: (i = 0) => ({
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        delay: i * 0.06,
+        duration: 0.55,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    }),
+  };
 
   useEffect(() => {
     const t = setTimeout(() => setShow(false), 2000);
@@ -27,46 +40,25 @@ export default function IntroOverlay() {
           {/* Logo Container */}
           <motion.div
             className="flex flex-col items-center justify-center"
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ 
-              opacity: 1, 
-              scale: 1, 
-              y: 0,
-              transition: {
-                duration: 0.8,
-                ease: [0.22, 1, 0.36, 1],
-                delay: 0.2
-              }
-            }}
+            initial="hidden"
+            animate="visible"
             exit={{
               opacity: 0,
               scale: 0.9,
               y: -20,
-              transition: {
-                duration: 0.4,
-                ease: [0.22, 1, 0.36, 1]
-              }
+              transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
             }}
+            variants={cardVariants}
+            custom={0}
           >
             {/* Logo Image with Glow Effect */}
             <motion.div
               className="relative"
-              initial={{ opacity: 0, scale: 0.5, rotateY: -90 }}
-              animate={{ 
-                opacity: 1, 
-                scale: 1,
-                rotateY: 0,
-                transition: {
-                  duration: 1,
-                  ease: [0.22, 1, 0.36, 1],
-                  delay: 0.3
-                }
-              }}
-              exit={{
-                opacity: 0,
-                scale: 0.8,
-                transition: { duration: 0.3 }
-              }}
+              variants={cardVariants}
+              custom={1}
+              initial="hidden"
+              animate="visible"
+              exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.3 } }}
             >
               {/* Glow effect behind logo */}
               <motion.div
@@ -94,16 +86,10 @@ export default function IntroOverlay() {
 
             {/* Company Name */}
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ 
-                opacity: 1, 
-                y: 0,
-                transition: {
-                  duration: 0.6,
-                  ease: [0.22, 1, 0.36, 1],
-                  delay: 0.8
-                }
-              }}
+              variants={cardVariants}
+              custom={2}
+              initial="hidden"
+              animate="visible"
               exit={{
                 opacity: 0,
                 transition: { duration: 0.2 }
@@ -112,11 +98,6 @@ export default function IntroOverlay() {
             >
               <motion.span
                 className="text-2xl sm:text-3xl md:text-4xl font-semibold bg-gradient-to-r from-white via-violet-200 to-cyan-200 bg-clip-text text-transparent tracking-tight"
-                initial={{ opacity: 0 }}
-                animate={{
-                  opacity: 1,
-                  transition: { delay: 1 }
-                }}
               >
                 Build Your Website With US
               </motion.span>
