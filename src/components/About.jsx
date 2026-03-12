@@ -1,11 +1,19 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { staggerContainer, slideRight, slideUp, slideLeft, explosion } from '../utils/motion.js';
 import Section from './Section.jsx';
 
-const reveal = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
+const cardVariants = {
+  hidden: { opacity: 0, y: 24, scale: 0.98 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      delay: i * 0.06,
+      duration: 0.55,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  }),
 };
 
 export default function About() {
@@ -31,7 +39,6 @@ export default function About() {
 
       <Section>
         <motion.div
-          variants={staggerContainer(0.08, 0)}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.4 }}
@@ -40,7 +47,8 @@ export default function About() {
           {/* heading / copy */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
             <motion.div
-              variants={slideRight(0)}
+              variants={cardVariants}
+              custom={0}
               className="md:col-span-6"
             >
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight bg-gradient-to-r from-white via-violet-200 to-cyan-200 bg-clip-text text-transparent">
@@ -48,7 +56,8 @@ export default function About() {
               </h2>
             </motion.div>
             <motion.div
-              variants={slideLeft(0.1)}
+              variants={cardVariants}
+              custom={1}
               className="md:col-span-6 text-neutral-300/90 leading-relaxed text-sm sm:text-base"
             >
               <p>
@@ -62,7 +71,7 @@ export default function About() {
           </div>
 
           {/* horizontal stats slider */}
-          <motion.div variants={slideUp(0.15)}>
+          <motion.div variants={cardVariants} custom={2}>
             <div className="flex items-center justify-between mb-4 gap-4">
               <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-neutral-400">
                 Studio highlights
@@ -86,6 +95,7 @@ export default function About() {
                       label={s.k}
                       value={s.v}
                       delay={0.2 + (i % stats.length) * 0.05}
+                      index={3 + i}
                       color={s.color}
                       suffix={s.suffix}
                     />
@@ -104,7 +114,7 @@ export default function About() {
 }
 
 
-function CrazyCounter({ label, value, delay = 0, color = 'violet', suffix = '' }) {
+function CrazyCounter({ label, value, delay = 0, color = 'violet', suffix = '', index = 0 }) {
   const colorClasses = {
     violet: 'bg-violet-500/20 border-violet-500/30',
     cyan: 'bg-cyan-500/20 border-cyan-500/30',
@@ -123,7 +133,8 @@ function CrazyCounter({ label, value, delay = 0, color = 'violet', suffix = '' }
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.4 }}
-      variants={explosion(delay)}
+      variants={cardVariants}
+      custom={index}
       className={`h-full rounded-2xl border p-5 relative overflow-hidden group ${colorClasses[color]}`}
     >
       {/* STATIC BACKGROUND */}
